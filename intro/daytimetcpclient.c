@@ -29,6 +29,7 @@ int main(int argc, char **argv) {
 	int sockfd, n;
 	char recvline[MAXLINE + 1];
 	struct sockaddr_in servaddr;
+	int count = 0;
 
 	if (argc != 2)
 		err_quit("usage: a.out < IPaddress >");
@@ -46,6 +47,7 @@ int main(int argc, char **argv) {
 		err_quit("connect error");
 
 	while ( (n = read(sockfd, recvline, MAXLINE)) > 0) {
+		count += 1;
 		recvline[n] = 0;	/* null terminate */
 		if (fputs(recvline, stdout) == EOF) 
 			err_quit("fputs error");
@@ -53,5 +55,6 @@ int main(int argc, char **argv) {
 	if (n < 0)
 		err_quit("read error");
 
+	printf("\ncounter: %d\n", count);
 	exit(0);
 }
